@@ -1,0 +1,545 @@
+Data Scientist Role Play: Profiling and Analyzing the Yelp Dataset Coursera Worksheet
+
+This is a 2-part assignment. In the first part, you are asked a series of questions that will help you profile and understand the data just like a data scientist would. For this first part of the assignment, you will be assessed both on the correctness of your findings, as well as the code you used to arrive at your answer. You will be graded on how easy your code is to read, so remember to use proper formatting and comments where necessary.
+
+In the second part of the assignment, you are asked to come up with your own inferences and analysis of the data for a particular research question you want to answer. You will be required to prepare the dataset for the analysis you choose to do. As with the first part, you will be graded, in part, on how easy your code is to read, so use proper formatting and comments to illustrate and communicate your intent as required.
+
+For both parts of this assignment, use this "worksheet." It provides all the questions you are being asked, and your job will be to transfer your answers and SQL coding where indicated into this worksheet so that your peers can review your work. You should be able to use any Text Editor (Windows Notepad, Apple TextEdit, Notepad ++, Sublime Text, etc.) to copy and paste your answers. If you are going to use Word or some other page layout application, just be careful to make sure your answers and code are lined appropriately.
+In this case, you may want to save as a PDF to ensure your formatting remains intact for you reviewer.
+
+
+Julie Radford
+Coursera: SQL for Data Science
+
+
+
+Part 1: Yelp Dataset Profiling and Understanding
+
+1. Profile the data by finding the total number of records for each of the tables below:
+
+The following is the SQL code used to find each of the tables:
+
+SELECT COUNT(*) AS records_total
+FROM attribute;
+
+Note: FROM command will change for each table (i.e. FROM attribute, FROM business, FROM category, ...)
+	
+i. Attribute table = 10000
+ii. Business table = 10000
+iii. Category table = 10000
+iv. Checkin table = 10000
+v. elite_years table = 10000
+vi. friend table = 10000
+vii. hours table = 10000
+viii. photo table = 10000
+ix. review table = 10000
+x. tip table = 10000
+xi. user table = 10000
+	
+
+
+2. Find the total distinct records by either the foreign key or primary key for each table. If two foreign keys are listed in the table, please specify which foreign key.
+
+i. Business = KEY: id; TOTAL RECORDS: 10000
+SQL Code: SELECT COUNT(DISTINCT id)
+		  FROM business;
+		  
+ii. Hours = KEY: business_id; TOTAL RECORDS: 1562
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM hours;
+		  
+iii. Category = KEY: business_id; TOTAL RECORDS: 2643
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM category;
+		  
+iv. Attribute = KEY: business_id; TOTAL RECORDS: 1115
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM attribute;
+		  		  
+v. Review = 
+KEY: id; TOTAL: 10000
+SQL Code: SELECT COUNT(DISTINCT id)
+		  FROM review;
+		  
+KEY: business_id; TOTAL: 8090
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM review;
+		  
+KEY: user_id; TOTAL: 9581
+SQL Code: SELECT COUNT(DISTINCT user_id)
+		  FROM review;
+			
+Alternatively, the following SQL Code is more time efficient:
+SELECT COUNT(DISTINCT id), COUNT(DISTINCT business_id), COUNT(DISTINCT user_id)
+FROM review;
+
+vi. Checkin = KEY: business_id; TOTAL: 493
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM checkin;
+		  
+vii. Photo = 
+KEY: id; TOTAL: 10000
+SQL Code: SELECT COUNT(DISTINCT id)
+		  FROM photo;
+		  
+KEY: business_id; TOTAL: 6493
+SQL COde: SELECT COUNT(DISTINCT business_id)
+		  FROM photo;
+		  
+Alternatively, the following SQL Code is more time efficient:
+SELECT COUNT(DISTINCT id), COUNT(DISTINCT business_id)
+FROM photo;
+
+viii. Tip = 
+KEY: business_id ; TOTAL: 3979
+SQL Code: SELECT COUNT(DISTINCT business_id)
+		  FROM tip;
+		  
+KEY: user_id; TOTAL: 537
+SQL Code: SELECT COUNT(DISTINCT user_id)
+		  FROM tip;
+
+Alternatively, the following SQL Code is more time efficient:
+SELECT COUNT(DISTINCT id), COUNT(DISTINCT business_id)
+FROM photo;
+
+ix. User = 
+KEY: id; TOTAL: 10000
+SQL Code: SELECT COUNT(DISTINCT id)
+		  FROM user;
+
+x. Friend = 
+KEY: user_id; TOTAL: 11
+SQL Code: SELECT COUNT(DISTINCT user_id)
+		  FROM friend;
+
+xi. Elite_years =
+KEY: user_id; TOTAL: 2780
+SQL Code: SELECT COUNT(DISTINCT user_id)
+		  FROM elite_years;
+
+Note: Primary Keys are denoted in the ER-Diagram with a yellow key icon.	
+
+
+
+3. Are there any columns with null values in the Users table? Indicate "yes," or "no."
+
+	Answer: No
+	
+	
+	SQL code used to arrive at answer:
+	
+	SELECT COUNT(*)
+	FROM user
+	WHERE id is NULL or
+    name is NULL or
+    review_count is NULL or
+    yelping_since is NULL or
+    useful is NULL or
+    funny is NULL or
+    cool is NULL or
+    fans is NULL or
+    average_stars is NULL or
+    compliment_hot is NULL or
+    compliment_more is NULL or
+    compliment_profile is NULL or
+    compliment_cute is NULL or
+    compliment_list is NULL or
+    compliment_note is NULL or
+    compliment_plain is NULL or
+    compliment_cool is NULL or
+    compliment_funny is NULL or
+    compliment_writer is NULL or
+    compliment_photos is NULL;
+	
+	4. For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
+
+	i. Table: Review, Column: Stars
+	
+		min: 1		max: 5		avg: 3.7082
+		SQL Code: SELECT min(stars), max(stars), avg(stars)
+				  FROM review;
+		
+	
+	ii. Table: Business, Column: Stars
+	
+		min: 1		max: 5		avg: 3.6549
+		SQL Code: SELECT min(stars), max(stars), avg(stars)
+				  FROM business;
+		
+	
+	iii. Table: Tip, Column: Likes
+	
+		min: 0		max: 2		avg: 0.0144
+		SQL Code: SELECT min(likes), max(likes), avg(likes)
+				  FROM tip;
+		
+	
+	iv. Table: Checkin, Column: Count
+	
+		min: 1		max: 53		avg: 1.9414
+		SQL Code: SELECT min(count), max(count), avg(count)
+				  FROM checkin;
+		
+	
+	v. Table: User, Column: Review_count
+	
+		min: 0		max: 2000		avg: 24.2995
+		SQL Code: SELECT min(review_count), max(review_count), avg(review_count)
+				  FROM user;
+		
+
+
+5. List the cities with the most reviews in descending order:
+
+	SQL code used to arrive at answer:
+	SELECT city,
+	sum(review_count) AS Total_Reviews
+	FROM business
+	GROUP BY city
+	ORDER BY Total_Reviews DESC;
+	
+	Copy and Paste the Result Below:
+	+-----------------+---------------+
+| city            | Total_Reviews |
++-----------------+---------------+
+| Las Vegas       |         82854 |
+| Phoenix         |         34503 |
+| Toronto         |         24113 |
+| Scottsdale      |         20614 |
+| Charlotte       |         12523 |
+| Henderson       |         10871 |
+| Tempe           |         10504 |
+| Pittsburgh      |          9798 |
+| Montréal        |          9448 |
+| Chandler        |          8112 |
+| Mesa            |          6875 |
+| Gilbert         |          6380 |
+| Cleveland       |          5593 |
+| Madison         |          5265 |
+| Glendale        |          4406 |
+| Mississauga     |          3814 |
+| Edinburgh       |          2792 |
+| Peoria          |          2624 |
+| North Las Vegas |          2438 |
+| Markham         |          2352 |
+| Champaign       |          2029 |
+| Stuttgart       |          1849 |
+| Surprise        |          1520 |
+| Lakewood        |          1465 |
+| Goodyear        |          1155 |
++-----------------+---------------+
+(Output limit exceeded, 25 of 362 total rows shown)
+	
+
+	
+6. Find the distribution of star ratings to the business in the following cities:
+
+i. Avon
+
+SQL code used to arrive at answer:
+SELECT stars,
+sum(review_count) AS Number_of_Ratings
+FROM business
+WHERE city = 'Avon'
+GROUP BY stars;
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------------------+
+| stars | Number_of_Ratings |
++-------+-------------------+
+|   1.5 |                10 |
+|   2.5 |                 6 |
+|   3.5 |                88 |
+|   4.0 |                21 |
+|   4.5 |                31 |
+|   5.0 |                 3 |
++-------+-------------------+
+
+ii. Beachwood
+
+SQL code used to arrive at answer:
+SELECT stars,
+sum(review_count) AS Number_of_Ratings
+FROM business
+WHERE city = 'Beachwood'
+GROUP BY stars;
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------------------+
+| stars | Number_of_Ratings |
++-------+-------------------+
+|   2.0 |                 8 |
+|   2.5 |                 3 |
+|   3.0 |                11 |
+|   3.5 |                 6 |
+|   4.0 |                69 |
+|   4.5 |                17 |
+|   5.0 |                23 |
++-------+-------------------+		
+
+
+7. Find the top 3 users based on their total number of reviews:
+		
+	SQL code used to arrive at answer:
+	SELECT id,
+	name,
+	review_count AS Total_Reviews_Made
+	FROM user
+	ORDER BY Total_Reviews_Made DESC
+	LIMIT 3;
+		
+	Copy and Paste the Result Below:
+	+------------------------+--------+--------------------+
+	| id                     | name   | Total_Reviews_Made |
+	+------------------------+--------+--------------------+
+	| -G7Zkl1wIWBBmD0KRy_sCw | Gerald |               2000 |
+	| -3s52C4zL_DHRK0ULG6qtg | Sara   |               1629 |
+	| -8lbUNlXVSoXqaRRiHiSNg | Yuri   |               1339 |
+	+------------------------+--------+--------------------+	
+
+
+8. Does posing more reviews correlate with more fans? No
+
+	Please explain your findings and interpretation of the results:
+	
+	Below are the findings. Consider Gearld; he has the most reviews, yet only a couple hundred or so fans.
+	Also consider Amy; she has only completed around 600 reviews, yet has the most fans.
+	
+	Results:
+	+------------------------+-----------+--------------+------+---------------------+
+| id                     | name      | review_count | fans | yelping_since       |
++------------------------+-----------+--------------+------+---------------------+
+| -9I98YbNQnLdAmcYfb324Q | Amy       |          609 |  503 | 2007-07-19 00:00:00 |
+| -8EnCioUmDygAbsYZmTeRQ | Mimi      |          968 |  497 | 2011-03-30 00:00:00 |
+| --2vR0DIsmQ6WfcSzKWigw | Harald    |         1153 |  311 | 2012-11-27 00:00:00 |
+| -G7Zkl1wIWBBmD0KRy_sCw | Gerald    |         2000 |  253 | 2012-12-16 00:00:00 |
+| -0IiMAZI2SsQ7VmyzJjokQ | Christine |          930 |  173 | 2009-07-08 00:00:00 |
+| -g3XIcCb2b-BD0QBCcq2Sw | Lisa      |          813 |  159 | 2009-10-05 00:00:00 |
+| -9bbDysuiWeo2VShFJJtcw | Cat       |          377 |  133 | 2009-02-05 00:00:00 |
+| -FZBTkAZEXoP7CYvRV2ZwQ | William   |         1215 |  126 | 2015-02-19 00:00:00 |
+| -9da1xk7zgnnfO1uTVYGkA | Fran      |          862 |  124 | 2012-04-05 00:00:00 |
+| -lh59ko3dxChBSZ9U7LfUw | Lissa     |          834 |  120 | 2007-08-14 00:00:00 |
+| -B-QEUESGWHPE_889WJaeg | Mark      |          861 |  115 | 2009-05-31 00:00:00 |
+| -DmqnhW4Omr3YhmnigaqHg | Tiffany   |          408 |  111 | 2008-10-28 00:00:00 |
+| -cv9PPT7IHux7XUc9dOpkg | bernice   |          255 |  105 | 2007-08-29 00:00:00 |
+| -DFCC64NXgqrxlO8aLU5rg | Roanna    |         1039 |  104 | 2006-03-28 00:00:00 |
+| -IgKkE8JvYNWeGu8ze4P8Q | Angela    |          694 |  101 | 2010-10-01 00:00:00 |
+| -K2Tcgh2EKX6e6HqqIrBIQ | .Hon      |         1246 |  101 | 2006-07-19 00:00:00 |
+| -4viTt9UC44lWCFJwleMNQ | Ben       |          307 |   96 | 2007-03-10 00:00:00 |
+| -3i9bhfvrM3F1wsC9XIB8g | Linda     |          584 |   89 | 2005-08-07 00:00:00 |
+| -kLVfaJytOJY2-QdQoCcNQ | Christina |          842 |   85 | 2012-10-08 00:00:00 |
+| -ePh4Prox7ZXnEBNGKyUEA | Jessica   |          220 |   84 | 2009-01-12 00:00:00 |
+| -4BEUkLvHQntN6qPfKJP2w | Greg      |          408 |   81 | 2008-02-16 00:00:00 |
+| -C-l8EHSLXtZZVfUAUhsPA | Nieves    |          178 |   80 | 2013-07-08 00:00:00 |
+| -dw8f7FLaUmWR7bfJ_Yf0w | Sui       |          754 |   78 | 2009-09-07 00:00:00 |
+| -8lbUNlXVSoXqaRRiHiSNg | Yuri      |         1339 |   76 | 2008-01-03 00:00:00 |
+| -0zEEaDFIjABtPQni0XlHA | Nicole    |          161 |   73 | 2009-04-30 00:00:00 |
++------------------------+-----------+--------------+------+---------------------+
+(Output limit exceeded, 25 of 10000 total rows shown)
+	
+	SQL Code:
+	SELECT id,
+	name,
+	review_count,
+	fans,
+	yelping_since
+	FROM user
+	ORDER BY fans DESC;
+
+	
+9. Are there more reviews with the word "love" or with the word "hate" in them?
+
+	Answer: There are more reviews with the word "love" (Total: 1780) in them than there are with the word "hate" (Total: 232) in them.
+
+	
+	SQL code used to arrive at answer:
+	
+		Reviews with the word "love" in them:
+		SELECT COUNT(*) AS Reviews_with_Love
+		FROM review
+		WHERE text LIKE '%love%';
+		
+		Results:
+		+-------------------+
+		| Reviews_with_Love |
+		+-------------------+
+		|              1780 |
+		+-------------------+
+		
+		Reviews with the word "hate" in them:
+		SELECT COUNT(*) AS Reviews_with_Hate
+		FROM review
+		WHERE text LIKE '%hate%';
+		
+		Results:
+		+-------------------+
+		| Reviews_with_Hate |
+		+-------------------+
+		|               232 |
+		+-------------------+
+	
+	
+10. Find the top 10 users with the most fans:
+
+	SQL code used to arrive at answer:
+	SELECT id,
+	name,
+	fans
+	FROM user
+	ORDER BY fans DESC
+	LIMIT 10;
+	
+	Copy and Paste the Result Below:
+	+------------------------+-----------+------+
+	| id                     | name      | fans |
+	+------------------------+-----------+------+
+	| -9I98YbNQnLdAmcYfb324Q | Amy       |  503 |
+	| -8EnCioUmDygAbsYZmTeRQ | Mimi      |  497 |
+	| --2vR0DIsmQ6WfcSzKWigw | Harald    |  311 |
+	| -G7Zkl1wIWBBmD0KRy_sCw | Gerald    |  253 |
+	| -0IiMAZI2SsQ7VmyzJjokQ | Christine |  173 |
+	| -g3XIcCb2b-BD0QBCcq2Sw | Lisa      |  159 |
+	| -9bbDysuiWeo2VShFJJtcw | Cat       |  133 |
+	| -FZBTkAZEXoP7CYvRV2ZwQ | William   |  126 |
+	| -9da1xk7zgnnfO1uTVYGkA | Fran      |  124 |
+	| -lh59ko3dxChBSZ9U7LfUw | Lissa     |  120 |
+	+------------------------+-----------+------+
+	
+		
+
+Part 2: Inferences and Analysis
+
+1. Pick one city and category of your choice and group the businesses in that city or category by their overall star rating. Compare the businesses with 2-3 stars to the businesses with 4-5 stars and answer the following questions. Include your code.
+	
+i. Do the two groups you chose to analyze have a different distribution of hours? Yes
+
+
+ii. Do the two groups you chose to analyze have a different number of reviews? Yes
+         
+         
+iii. Are you able to infer anything from the location data provided between these two groups? Explain.
+I was not able to infer anything from the location data provided, as they were all different zip codes.
+
+SQL code used for analysis:
+SELECT bus.name,
+cat.category,
+bus.city, 
+bus.postal_code AS ZIP,
+hours, 
+CASE
+	WHEN stars BETWEEN 2 AND 3 THEN '2-3 stars'
+	WHEN stars BETWEEN 4 AND 5 THEN '4-5 stars'
+END AS star_rating,
+bus.review_count AS total_reviews
+FROM business bus
+INNER JOIN hours hrs on bus.id = hrs.business_id
+INNER JOIN category cat on cat.business_id = bus.id
+WHERE city = 'Las Vegas' and category = 'Restaurants' and star_rating in ('2-3 stars','4-5 stars')
+GROUP BY name
+ORDER BY stars DESC;
+
+Results:
++---------------------+-------------+-----------+-------+----------------------+-------------+---------------+
+| name                | category    | city      | ZIP   | hours                | star_rating | total_reviews |
++---------------------+-------------+-----------+-------+----------------------+-------------+---------------+
+| Big Wong Restaurant | Restaurants | Las Vegas | 89146 | Saturday|10:00-23:00 | 4-5 stars   |           768 |
+| Jacques Cafe        | Restaurants | Las Vegas | 89134 | Saturday|11:00-20:00 | 4-5 stars   |           168 |
+| Wingstop            | Restaurants | Las Vegas | 89103 | Saturday|11:00-0:00  | 2-3 stars   |           123 |
++---------------------+-------------+-----------+-------+----------------------+-------------+---------------+
+		
+		
+2. Group business based on the ones that are open and the ones that are closed. What differences can you find between the ones that are still open and the ones that are closed? List at least two differences and the SQL code you used to arrive at your answer.
+		
+i. Difference 1: When considering the avg(review_count), the difference in averages between open and closed businesses was 8.5590491.
+         
+         
+ii. Difference 2: When considering the avg(stars), the difference in averages between open and closed businesses was 0.1586147.
+         
+         
+         
+SQL code used for analysis:
+SELECT COUNT(DISTINCT id),
+COUNT(DISTINCT city),
+is_open,
+avg(review_count),
+avg(stars)
+FROM business
+GROUP BY is_open;
+
+Results:
++--------------------+----------------------+---------+-------------------+---------------+
+| COUNT(DISTINCT id) | COUNT(DISTINCT city) | is_open | avg(review_count) |    avg(stars) |
++--------------------+----------------------+---------+-------------------+---------------+
+|               1520 |                  144 |       0 |     23.1980263158 | 3.52039473684 |
+|               8480 |                  351 |       1 |     31.7570754717 | 3.67900943396 |
++--------------------+----------------------+---------+-------------------+---------------+
+	
+	
+3. For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset and are going to prepare the data for analysis.
+
+Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, clustering businesses to find commonalities or anomalies between them, predicting the overall star rating for a business, predicting the number of fans a user will have, and so on. These are just a few examples to get you started, so feel free to be creative and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
+	
+i. Indicate the type of analysis you chose to do:
+
+As an ex-chef, I knew my analysis would involve restaurants! And as a mother of two, I also wanted to find restaurants that were kid friendly.
+Since we are traveling this summer, I thought I would see which restaurants throughout the country might be on our route.
+
+ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
+
+Looking at the ER Diagram, I knew I needed to gather data from the following tables: business, category, and attribute
+I made sure to pull categories listed as restaurants, get the star ratings, the restaurant names and their locations, as well as a "Good For Kids" attribute.                         
+                  
+iii. Output of your finished dataset:
++------------------------+-------------+----------------------------------------+---------------------------------------+-------+-------+-------------+
+| Business_ID            | Attribute   | Name                                   | Address                               | State | Stars | Category    |
++------------------------+-------------+----------------------------------------+---------------------------------------+-------+-------+-------------+
+| 1mkDrJRu3VABKy95gxD-Hg | GoodForKids | Charlie D's Catfish & Chicken          | 1153 E Jefferson St                   | AZ    |   4.5 | Restaurants |
+| 0kyhbUW6NkpYjJzFBZ64vQ | GoodForKids | The Cider Mill                         | 7240 E Main St, Ste C                 | AZ    |   4.0 | Restaurants |
+| 2rcrwnlPd_w5oieGVyDgpw | GoodForKids | Masamune Japanese Restaurant           | 5200 Dixie Road, Suite 8              | ON    |   4.0 | Restaurants |
+| 1_y5e1u-o93EKOigXgR3LQ | GoodForKids | Hermanos Mexican Grill                 | 61 Lakeshore Road E                   | ON    |   4.0 | Restaurants |
+| 37kk0IW6jL7ZlxZF6k2QBg | GoodForKids | Edulis                                 | 169 Niagara Street                    | ON    |   4.0 | Restaurants |
+| 2skQeu3C36VCiB653MIfrw | GoodForKids | Bootleggers Modern American Smokehouse | 3375 E Shea Blvd                      | AZ    |   4.0 | Restaurants |
+| 1pOqoAixFXrVci0kSZnbzQ | GoodForKids | Papa Murphy's                          | 6718 Raymond Rd                       | WI    |   4.0 | Restaurants |
+| 01xXe2m_z048W5gcBFpoJA | GoodForKids | Five Guys                              | 2641 N 44th St, Ste 100               | AZ    |   3.5 | Restaurants |
+| 0u2xwNy07-z3gv0tpuJX2Q | GoodForKids | Subway                                 | 3105 Antheo Ct                        | PA    |   3.5 | Restaurants |
+| 0kzPQQL8wVcHlBQzMdRdWQ | GoodForKids | Thirsty Goat                           | 3040 Cahill Main                      | WI    |   3.5 | Restaurants |
+| 11bhfBbcFypczdz3N_w6iw | GoodForKids | Senor Taco                             | 12958 W Indian School Rd, Ste B1      | AZ    |   3.5 | Restaurants |
+| 2z3gnLoBNJPlXswFDESFxQ | GoodForKids | Poutine Lafleur                        | 3665 Rue Wellington                   | QC    |   3.5 | Restaurants |
+| 0IySwcfqwJjpHPsYwjpAkg | GoodForKids | Subway                                 | 2904 Yorkmont Rd                      | NC    |   3.5 | Restaurants |
+| 1CP8aJa8ILlfM5deroar0Q | GoodForKids | Wingstop                               | 5045 W Tropicana Ave                  | NV    |   3.0 | Restaurants |
+| 0B3W6KxkD3o4W4l6cq735w | GoodForKids | Big Smoke Burger                       | 260 Yonge Street                      | ON    |   3.0 | Restaurants |
+| 0cxO1Lx2Pi7u6ftWX3Wksg | GoodForKids | Oinky's Pork Chop Heaven               | 22483 Emery Rd                        | OH    |   3.0 | Restaurants |
+| 0hBGwOLU2UfiYXkM8wc8Hw | GoodForKids | Otto Onkel                             | In den Stubenweinbergen 5             | BW    |   3.0 | Restaurants |
+| 1NyHpXJqSLHnvDCOW0nJDg | GoodForKids | Pizzaiolo                              | 270 Adelaide Street W                 | ON    |   3.0 | Restaurants |
+| -2bYV9zVtn2F5XpiAaHt5A | GoodForKids | Deli 194                               | 194 Portobello High Street            | EDH   |   3.0 | Restaurants |
+| -0DET7VdEQOJVJ_v6klEug | GoodForKids | Flaming Kitchen                        | 3235 York Regional Road 7             | ON    |   3.0 | Restaurants |
+| 2JV0xGXsszojof2BuEt_hw | GoodForKids | Gallagher's                            | 751 E Union Hls Dr                    | AZ    |   3.0 | Restaurants |
+| 1GaooxqCWHzulI2Ub3CXEw | GoodForKids | Mad Mex - South Hills                  | Scott Towne Center, 2101 Greentree Rd | PA    |   3.0 | Restaurants |
+| 2LVuwl-eH-8PYikyFmqcTQ | GoodForKids | Papa Da Vinci                          | 3526 Blvd Of The Allies               | PA    |   2.5 | Restaurants |
+| 0YWsZ1Ie9e04DFfzFij7yQ | GoodForKids | Famous Sam's                           | 4343 W Glendale Ave                   | AZ    |   2.5 | Restaurants |
+| 0-TtzWmjREl7lIKDcmGONQ | GoodForKids | Mango Flats                            | 5500 S Mill Ave                       | AZ    |   2.5 | Restaurants |
++------------------------+-------------+----------------------------------------+---------------------------------------+-------+-------+-------------+
+         
+         
+iv. Provide the SQL code you used to create your final dataset:
+
+SELECT bus.id AS Business_ID,
+att.name AS Attribute,
+bus.name AS Name,
+bus.address AS Address,
+bus.state AS State,
+bus.stars AS Stars,
+cat.category AS Category
+FROM business bus
+INNER JOIN category cat ON bus.id = cat.business_id
+INNER JOIN attribute att ON bus.id = att.business_id
+WHERE att.name LIKE 'GoodForKids' AND cat.category LIKE 'Restaurants'
+ORDER BY bus.stars DESC
+LIMIT 25;
+
+
+
+
+
+
